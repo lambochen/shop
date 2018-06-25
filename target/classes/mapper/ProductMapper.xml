@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chensanwa.shop.dao.ProductDao">
+
+    <sql id="Base_Column_List">
+        id,name,price,type,stock,discount
+    </sql>
+
+    <insert id="insert=" parameterType="com.chensanwa.shop.entity.Product">
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT last_insert_id()
+        </selectKey>
+        INSERT into
+        product(name,price,type,stock,discount)
+        values(#{name},#{price},#{type},#{stock},#{discount})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM
+        product
+        WHERE
+        id=#{id}
+    </delete>
+
+
+    <select id="findById" parameterType="int" resultType="com.chensanwa.shop.entity.Product">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        product
+        WHERE
+        id=#{id}
+    </select>
+
+    <select id="list" resultType="com.chensanwa.shop.entity.Product">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        product
+    </select>
+
+    <select id="listByType" parameterType="String" resultType="com.chensanwa.shop.entity.Product">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        product
+        WHERE
+        type=#{type}
+    </select>
+
+    <update id="updateStock">
+        UPDATE
+        product
+        SET
+        stock = #{stock}
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="updateDiscount">
+        UPDATE
+        product
+        SET
+        discount = #{discount}
+        WHERE
+        id = #{id}
+    </update>
+
+</mapper>
