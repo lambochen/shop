@@ -165,11 +165,11 @@
     
 参数
 
-    id : 商品ID 
+    id : 商品ID
     discount : 商品折扣
     
 返回
- 
+
     {
         "code": 0,
         "msg": "请求成功",
@@ -197,11 +197,14 @@
                 "id": 1,
                 "name": "罗笑",
                 "telephone": "13008142323",
-                "supplierProductDtoList": [
+                "productList": [
                     {
-                        "supplierId": 1,
-                        "productId": 1,
-                        "amount": 100
+                        "id": 1,
+                        "name": "乐事薯片",
+                        "price": 12,
+                        "type": "薯片",
+                        "stock": 101,
+                        "discount": 10
                     }
                 ]
             },
@@ -209,11 +212,14 @@
                 "id": 2,
                 "name": "张三",
                 "telephone": "13002342343",
-                "supplierProductDtoList": [
+                "productList": [
                     {
-                        "supplierId": 2,
-                        "productId": 2,
-                        "amount": 100
+                        "id": 2,
+                        "name": "农夫山泉",
+                        "price": 2,
+                        "type": "矿泉水",
+                        "stock": 100,
+                        "discount": 10
                     }
                 ]
             }

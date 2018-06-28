@@ -17,7 +17,8 @@ public class Supplier {
     private String name;
     private String telephone;
 
-    private List<SupplierProductDto> supplierProductDtoList;
+    private List<Product> productList;
+
 
     public Supplier() {
     }
@@ -28,16 +29,16 @@ public class Supplier {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", telephone='" + telephone + '\'' +
-                ", supplierProductDtoList=" + supplierProductDtoList +
+                ", productList=" + productList +
                 '}';
     }
 
-    public List<SupplierProductDto> getSupplierProductDtoList() {
-        return supplierProductDtoList;
+    public List<Product> getProductList() {
+        return productList;
     }
 
-    public void setSupplierProductDtoList(List<SupplierProductDto> supplierProductDtoList) {
-        this.supplierProductDtoList = supplierProductDtoList;
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     public int getId() {

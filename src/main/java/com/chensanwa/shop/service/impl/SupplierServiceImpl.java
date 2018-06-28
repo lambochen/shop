@@ -1,8 +1,10 @@
 package com.chensanwa.shop.service.impl;
 
+import com.chensanwa.shop.dao.ProductDao;
 import com.chensanwa.shop.dao.SupplierDao;
 import com.chensanwa.shop.dao.SupplierProductDao;
 import com.chensanwa.shop.dto.SupplierProductDto;
+import com.chensanwa.shop.entity.Product;
 import com.chensanwa.shop.entity.Supplier;
 import com.chensanwa.shop.enums.ResultEnum;
 import com.chensanwa.shop.exception.BaseException;
@@ -11,6 +13,7 @@ import com.chensanwa.shop.util.TelephoneCheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,12 +29,23 @@ public class SupplierServiceImpl implements SupplierService {
     private SupplierDao supplierDao;
 
     @Autowired
+    private ProductDao productDao;
+
+    @Autowired
     private SupplierProductDao supplierProductDao;
 
     public List<Supplier> list() {
         List<Supplier> supplierList = supplierDao.list();
         for (int i=0;i<supplierList.size();i++){
-            supplierList.get(i).setSupplierProductDtoList(supplierProductDao.list(supplierList.get(i).getId()));
+            List<SupplierProductDto> supplierProductDtoList;
+            supplierProductDtoList = supplierProductDao.list(supplierList.get(i).getId());
+            List<Product> productList = new ArrayList<Product>();
+            for (SupplierProductDto supplierProductDto : supplierProductDtoList){
+                Product product = new Product();
+                product = productDao.findById(supplierProductDto.getProductId());
+                productList.add(product);
+            }
+            supplierList.get(i).setProductList(productList);
         }
         return supplierList;
     }
