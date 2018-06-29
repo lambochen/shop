@@ -43,6 +43,7 @@ public class SupplierServiceImpl implements SupplierService {
             for (SupplierProductDto supplierProductDto : supplierProductDtoList){
                 Product product = new Product();
                 product = productDao.findById(supplierProductDto.getProductId());
+                product.setStock(supplierProductDto.getAmount());
                 productList.add(product);
             }
             supplierList.get(i).setProductList(productList);
