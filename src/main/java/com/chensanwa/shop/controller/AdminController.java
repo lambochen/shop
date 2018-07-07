@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Created with IntelliJ IDEA
  * Created By Mr.Chen
@@ -27,8 +30,12 @@ public class AdminController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public Result login(String name,String password){
+    public Result login(String name, String password,
+                        HttpServletRequest request, HttpServletResponse response){
 
+        //允许session跨域访问
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         boolean count = adminService.login(name,password);
 
         if (count){

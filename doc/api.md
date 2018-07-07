@@ -4,6 +4,11 @@
 
 ## 管理员相关
 
+#### 测试账户
+
+name : Bob
+password : 123456
+
 #### 一、管理员登录
 
     POST /shop/admin/login

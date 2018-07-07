@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>购物商城</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css" media="screen">
+      .container1{
+        margin-top: 50px;
+        border: 1px solid #ddd;
+        padding: 15px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active"><a href="index.html">首页</a></li>
+      <li role="presentation"><a href="provide.html" id="provide">供应商</a></li>
+      <li role="presentation"><a href="login.html" id="user">登录</a></li>
+    </ul>
+    
+    <div class="container container1" id="things">
+    </div>
+    <div class="container" style="margin-bottom: 60px;">
+      <button type="button" class="btn btn-primary" id="add">增加商品</button>
+    </div>
+
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <div style="text-align: center;color: #fff;line-height: 30px;">make by@chensanwan</div>
+    </footer>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="../js/jquery-1.11.2.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/jquerysession.js"></script>
+    <script type="text/javascript" src="../js/underscore.js"></script>
+    <script type="text/template" id="moban">
+      <ul class="list-group col-md-3">
+        <li class="list-group-item">商品编号：<span class="hao">{{=id}}</span></li>
+        <li class="list-group-item">商品名：<span>{{=Tname}}</span></li>
+        <li class="list-group-item">商品价格：<span>{{=price}}</span></li>
+        <li class="list-group-item">商品类别：<span>{{=type}}</span></li>
+        <li class="list-group-item">商品库存：<span>{{=stock}}</span></li>
+        <li class="list-group-item">商品折扣：<span>{{=discount}}</span></li>
+        <li class="list-group-item">
+          <button type="button" class="btn btn btn-warning">修改</button>
+          <button type="button" class="btn btn btn-warning">完成修改</button>
+          <button type="button" class="btn btn-danger">删除</button>
+        </li>
+      </ul>
+  </script>
+  <script type="text/template" id="moban1">
+    <ul class="list-group col-md-3">
+      <li class="list-group-item"><label>商品名：</label><input type="text" class="form-control" id="name"></li>
+      <li class="list-group-item"><label>商品价格：</label><input type="text" class="form-control" id="price"></li>
+      <li class="list-group-item"><label>商品类别：</label><input type="text" class="form-control" id="type"></li>
+      <li class="list-group-item"><label>商品库存：</label><input type="text" class="form-control" id="stock"></li>
+      <li class="list-group-item"><label>商品折扣：</label><input type="text" class="form-control" id="discount"></li>
+      <li class="list-group-item"><button type="button" class="btn btn-primary">完成</button></li>
+    </ul>
+  </script>
+    <script type="text/javascript">
+      //console.log($.session.get('name'));
+      if ($.session.get('login') == 1) {
+        $("#user").text("欢迎你，"+$.session.get('name'));
+        $("#user").attr("href","javascript:void(0)");
+      }
+
+      if ($.session.get('login') == 1) {
+        window.onload = function(){
+          $.ajax({
+            type:"get",
+            url:"http://120.77.170.124:8080/shop/product/product.do",
+            dataType:"json",
+            async:true,
+            success: succFunction1,
+            error: erryFunction1
+          });
+          function erryFunction1(result){
+            alert("获取失败");
+          }
+          function succFunction1(result){
+            $("#things").html("");
+            for(var i = 0;i<result.data.length;i++){
+                var compiled = _.template($("#moban").html());
+                var html = compiled({
+                  id: result.data[i].id,
+                  Tname : result.data[i].name,
+                  price:result.data[i].price,
+                  type:result.data[i].type,
+                  stock:result.data[i].stock,
+                  discount:result.data[i].discount
+                });
+                $("#things").append($(html));
+            }
+          }
+        }
+      }
+
+      $("#add").click(function(){
+            var compiled = _.template($("#moban1").html());
+            $("#things").append(compiled);
+      })
+
+      $("#things").on("click","li:last-child>button:only-of-type",function(){
+        $.ajax({
+          type:"post",
+          url:"http://120.77.170.124:8080/shop/product/product.do",
+          data:{'name':$("#name").val(),
+            'price':$("#price").val(),
+            'type':$("#type").val(),
+            'stock':$("#stock").val(),
+            'discount':$("#discount").val()
+          },
+          dataType:"json",
+          async:true,
+          success: succFunction1,
+          error: erryFunction1
+        });
+        function erryFunction1(result){
+          alert("error");
+        }
+        function succFunction1(result){
+          if (result.code == 0) {
+            alert("增加成功");
+            window.location.href="index.html";
+          }else{
+            alert("增加失败!")
+          }
+        }
+      })
+
+      $("#things").on("click","li>button:nth-child(3)",function(){
+        var p = $(this).parent().parent().children('li:first-child').find('span').text();
+        $.ajax({
+          type:"get",
+          url:"http://120.77.170.124:8080/shop/product/delete.do",
+          data:{'id':p,
+          },
+          dataType:"json",
+          async:true,
+          success: succFunction1,
+          error: erryFunction1
+        });
+        function erryFunction1(result){
+          alert("error");
+        }
+        function succFunction1(result){
+          if (result.code == 0) {
+            alert("删除成功");
+            window.location.href="index.html";
+          }else{
+            alert("删除失败!")
+          }
+        }
+      })
+
+
+      $("#things").on("click","li>button:nth-child(1)",function(){
+        $(this).parent().parent().children('li:nth-child(6)').find('span').empty();
+        var input1 = '<input type="text" name=""/>';
+        $(this).parent().parent().children('li:nth-child(6)').find('span').append(input1);
+      })
+
+
+      $("#things").on("click","li>button:nth-child(2)",function(){
+        var p = $(this).parent().parent().children('li:first-child').find('span').text();
+        var p2 = $(this).parent().parent().children('li:nth-child(6)').children('span:first-child').find('input').val();
+        $.ajax({
+          type:"post",
+          url:"http://120.77.170.124:8080/shop/product/discount.do",
+          data:{'id':p,
+            'discount':p2,
+          },
+          dataType:"json",
+          async:true,
+          success: succFunction1,
+          error: erryFunction1
+        });
+        function erryFunction1(result){
+          alert("error");
+        }
+        function succFunction1(result){
+          if (result.code == 0) {
+            alert("修改成功");
+            window.location.href="index.html";
+          }else{
+            alert("修改失败!")
+          }
+        }
+      })
+
+    </script>
+  </body>
+</html>
