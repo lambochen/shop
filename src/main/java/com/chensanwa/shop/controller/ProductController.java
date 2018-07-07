@@ -32,9 +32,6 @@ public class ProductController {
     @ResponseBody
     public Result addProduct(Product product,
                              HttpServletRequest request, HttpServletResponse response) {
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         productService.insert(product);
         return ResultUtil.success();
     }
@@ -43,9 +40,6 @@ public class ProductController {
     @ResponseBody
     public Result delete(int id,
                          HttpServletRequest request, HttpServletResponse response) {
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         productService.delete(id);
         return ResultUtil.success();
     }
@@ -54,36 +48,24 @@ public class ProductController {
     @ResponseBody
     public Result findById(@PathVariable("id") int id,
                            HttpServletRequest request, HttpServletResponse response) {
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         return ResultUtil.success(productService.findById(id));
     }
 
     @RequestMapping(value = "/product", method = RequestMethod.GET)
     @ResponseBody
     public Result listAll(HttpServletRequest request, HttpServletResponse response) {
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         return ResultUtil.success(productService.listAll());
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Result listByType(String type,HttpServletRequest request, HttpServletResponse response) {
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         return ResultUtil.success(productService.listByType(type));
     }
 
     @RequestMapping(value = "/stock", method = RequestMethod.POST)
     @ResponseBody
     public Result modifyStock(int id, int stock,HttpServletRequest request, HttpServletResponse response) {
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         productService.modifyStock(id, stock);
         return ResultUtil.success();
     }
@@ -91,9 +73,6 @@ public class ProductController {
     @RequestMapping(value = "/discount", method = RequestMethod.POST)
     @ResponseBody
     public Result modifyDiscount(int id, int discount,HttpServletRequest request, HttpServletResponse response) {
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         productService.modifyDiscount(id, discount);
         return ResultUtil.success();
     }

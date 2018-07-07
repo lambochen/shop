@@ -33,9 +33,9 @@ public class AdminController {
     public Result login(String name, String password,
                         HttpServletRequest request, HttpServletResponse response){
 
-        //允许session跨域访问
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        //允许session跨域访问
+//        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
         boolean count = adminService.login(name,password);
 
         if (count){
