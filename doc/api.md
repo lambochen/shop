@@ -11,7 +11,7 @@ password : 123456
 
 #### 一、管理员登录
 
-    POST /shop/admin/login
+    POST /shop/admin/login.do
     
 参数
 
@@ -51,7 +51,7 @@ password : 123456
 
 #### 二、 删除商品
 
-    GET /shop/product/delte.do
+    GET /shop/product/delete.do
     
 参数
 
